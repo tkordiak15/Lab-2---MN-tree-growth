@@ -1,0 +1,80 @@
+---
+title: "Exercises"
+format: html
+editor: visual
+---
+```{r}
+install.packages("dplyr")
+```
+
+```{r}
+library(dplyr)
+tree_dat %>% summarise(n = n())
+```
+#2 = 979
+```{r}
+tree_dat %>% filter(standID == 1) %>% tally()
+```
+# filter to subset rows basde on a condition; must equal (==) need two equal signs
+
+# if i want to produce this tibble in the environment i can rename it (this is an assignment) and print it 
+```{r}
+tree_count1 <- tree_dat %>% filter(standID == 1)
+
+print(tree_count1)
+```
+
+#3 = abba = 13033; pist = 4188
+```{r}
+tree_dat %>% filter(species %in% c("ABBA", "PIST")) %>% count(species)
+```
+#count(species) counts both species 
+# "c" is to combine multiple vectors together so one species with another species
+# %in% lets r know that species is refering to the ABBA and PIST
+
+#4 = 7
+```{r}
+last_year <- max(tree_dat$year, na.rm = TRUE)
+tree_dat %>% filter(year ==last_year, age > 200) %>% tally()
+```
+
+#%in% and $ are the same thing and can be used interchangably 
+
+#5 = 269
+```{r}
+tree_dat %>% slice_max(order_by = age, n = 1)
+
+```
+#order by - since we're using slice max were finding the oldest by age and n = 1 is selceting just 1 single oldest tree
+# if i wanted to categorize the oldest tree i can do an assignment, where the oldest_tree is a copy of the tree_dat 
+
+#6 263, 259, 212, 206, 206
+```{r}
+tree_dat %>% filter(year == 2001) %>% slice_max(order_by = age, n = 5)
+```
+
+#7
+```{r}
+tree_dat %>% filter(year == 2002) %>% slice_sample(prop = 0.3) 
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
